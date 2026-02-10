@@ -1,0 +1,43 @@
+---
+- name: Filters Demo
+  hosts: localhost    # <--- Fixed for you
+  connection: local
+  gather_facts: no
+  
+  vars:
+    topics: "linux,shell,ansible,terraform"
+    course: "DevOps with Ansible"
+    myIp: "192.168.1.100"
+    tagsMap:
+      name: "ansible"
+      project: "roboshop"
+
+    tagsList:
+      - { key: "name", value: "ansible" }
+      - { key: "project", value: "roboshop" }
+
+  tasks:
+    - name: 1. Default Filter (Failsafe)
+      ansible.builtin.debug:
+        # GREETING is not defined, so it will use the default
+        msg: "Hi Ramu, {{ GREETING | default('Good Morning') }}"
+
+    - name: 2. Split String into List
+      ansible.builtin.debug:
+        msg: "{{ topics | split(',') }}"
+
+    - name: 3. Convert Dictionary to List (AWS Style)
+      ansible.builtin.debug:
+        msg: "{{ tagsMap | dict2items }}"
+
+    - name: 4. Convert List to Dictionary
+      ansible.builtin.debug:
+        msg: "{{ tagsList | items2dict }}"
+
+    - name: 5. Convert YAML/Dict to Formatted JSON
+      ansible.builtin.debug:
+        msg: "{{ tagsMap | to_nice_json }}"
+
+    - name: 6. String Case Manipulation
+      ansible.builtin.debug:
+        msg: "Upper: {{ course | upper }} | Lower: {{ course | lower }}"
