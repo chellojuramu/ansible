@@ -1,0 +1,22 @@
+---
+# ==========================================
+# PLAY 1
+# ==========================================
+- name: Hello World (Play 1)
+  hosts: localhost
+  connection: local
+  tasks:
+    - name: print hello World
+      ansible.builtin.debug:
+        msg: "Hello World!"
+
+# ==========================================
+# PLAY 2
+# ==========================================
+- name: PLAY-2
+  hosts: localhost
+  connection: local
+  tasks:
+    - name: play-2 and task-1
+      ansible.builtin.debug:
+        msg: "Hello from PLAY-2 and TASK-1"
