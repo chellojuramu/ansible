@@ -1,0 +1,13 @@
+---
+- name: Idempotency Demo
+  hosts: localhost
+  connection: local
+  become: yes   # <--- Need root to manage users
+  gather_facts: no
+
+  tasks:
+    - name: Ensure user 'johnd' exists
+      # We use the 'user' module instead of 'command: useradd'
+      ansible.builtin.user:
+        name: johnd
+        state: present  # (This is the default, but good to be explicit)
