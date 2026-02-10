@@ -1,0 +1,21 @@
+---
+- name: Error Handling Demo
+  hosts: localhost
+  connection: local
+  become: yes
+  gather_facts: no
+
+  tasks:
+    - name: 1. Check if user exists (Will fail if they don't)
+      ansible.builtin.command: id roboshop
+      register: user_output
+      ignore_errors: true   # <--- THE MAGIC: Don't stop if user is missing!
+
+    - name: 2. Print the full output (Look at the 'rc' value)
+      ansible.builtin.debug:
+        msg: "Return Code was: {{ user_output.rc }}"
+
+    - name: 3. Create user ONLY if they don't exist
+      # rc != 0 means the 'id' command failed (user missing)
+      ansible.builtin.command: useradd roboshop
+      when: user_output.rc != 0
