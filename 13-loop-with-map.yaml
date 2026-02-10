@@ -1,0 +1,16 @@
+---
+- name: Loop with Map Demo
+  hosts: localhost
+  connection: local
+  become: yes   # <--- ROOT ACCESS (sudo) needed for install/remove
+  gather_facts: yes
+
+  tasks:
+    - name: Manage Packages (Install and Remove)
+      ansible.builtin.package:
+        name: "{{ item.name }}"
+        state: "{{ item.state }}"
+      loop:
+        - { name: "git", state: "present" }     # Ensure Git is Installed
+        - { name: "zip", state: "present" }     # Ensure Zip is Installed
+        - { name: "httpd", state: "absent" }    # Ensure Apache is REMOVED
