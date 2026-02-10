@@ -1,0 +1,16 @@
+---
+- name: Loop Control Demo
+  hosts: localhost
+  connection: local
+  gather_facts: no
+
+  tasks:
+    - name: Print Names (Using Custom Variable Name)
+      ansible.builtin.debug:
+        msg: "Hello, {{ name }}!"  # <--- Now we can use 'name'!
+      loop:
+        - Ramesh
+        - Raheem
+        - John
+      loop_control:
+        loop_var: name   # <--- The Magic Trick
