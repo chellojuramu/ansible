@@ -2,15 +2,27 @@
 - name: Conditionals Demo
   hosts: localhost
   connection: local
+  gather_facts: no
+  
   vars:
+    # Try changing this to 'true' later to see the difference!
     IS_LIVE: false
+    
+    # Example of string comparison
+    COURSE: "DevOps"
+
   tasks:
-    - name: Run only if Live
+    - name: Task 1 - Check if Live (Will SKIP)
       ansible.builtin.debug:
-        msg: "Yes, it is Live"
+        msg: "Yes, the session is LIVE right now."
       when: IS_LIVE
 
-    - name: Run if NOT Live
+    - name: Task 2 - Check if Recording (Will RUN)
       ansible.builtin.debug:
-        msg: "It is NOT Live (Recording)"
+        msg: "No, this is a RECORDING."
       when: not IS_LIVE
+
+    - name: Task 3 - String Comparison (Will RUN)
+      ansible.builtin.debug:
+        msg: "Welcome to the DevOps Class!"
+      when: COURSE == "DevOps"
