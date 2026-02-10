@@ -1,0 +1,16 @@
+---
+- name: Gathering Facts Demo
+  hosts: localhost
+  connection: local
+  gather_facts: yes   # <--- MUST BE YES (Default)
+  
+  tasks:
+    - name: Check if OS is RedHat Family (Amazon Linux, CentOS)
+      ansible.builtin.debug:
+        msg: "Yes, this system uses yum/dnf (RedHat Family)."
+      when: ansible_facts['os_family'] == "RedHat"
+
+    - name: Check if OS is Debian Family (Ubuntu)
+      ansible.builtin.debug:
+        msg: "Yes, this system uses apt (Debian Family)."
+      when: ansible_facts['os_family'] == "Debian"
