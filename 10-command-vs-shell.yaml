@@ -1,0 +1,27 @@
+---
+- name: Command vs Shell Module Demo
+  hosts: localhost
+  connection: local
+  gather_facts: no
+
+  tasks:
+    - name: Shell Module Test (With Pipe)
+      # 'command' module would FAIL here because it doesn't understand the pipe symbol |
+      ansible.builtin.shell: cat /etc/passwd | grep root
+      register: users_output
+
+    - name: Print User Output
+      ansible.builtin.debug:
+        msg: "Root User Info: {{ users_output.stdout }}"
+
+    - name: Shell Module Test (With Redirect)
+      # 'command' module would FAIL here because it doesn't understand the redirect symbol >
+      ansible.builtin.shell: ls -ltr > /tmp/files.txt
+      register: files_output
+    - name: Check System Uptime (Simple Command - Best Practice)
+      # 'command' is perfect here because there are no pipes or special symbols.
+      ansible.builtin.command: uptime
+      register: uptime_output
+    - name: Print File Creation Status
+      ansible.builtin.debug:
+        msg: "Command executed successfully. Return code: {{ files_output.rc }}"
