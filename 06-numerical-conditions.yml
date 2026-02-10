@@ -1,0 +1,19 @@
+---
+- name: Numerical Condition Demo
+  hosts: localhost
+  connection: local
+  gather_facts: no
+  
+  vars:
+    NUMBER_OF_SESSIONS: 7
+
+  tasks:
+    - name: Check if sessions are greater than 5
+      ansible.builtin.debug:
+        msg: "Yes, {{ NUMBER_OF_SESSIONS }} is more than 5."
+      when: NUMBER_OF_SESSIONS > 5
+
+    - name: Check if sessions are less than 10
+      ansible.builtin.debug:
+        msg: "Yes, {{ NUMBER_OF_SESSIONS }} is less than 10."
+      when: NUMBER_OF_SESSIONS < 10
