@@ -41,6 +41,7 @@
     - name: 6. String Case Manipulation
       ansible.builtin.debug:
         msg: "Upper: {{ course | upper }} | Lower: {{ course | lower }}"
+
     - name: check ipv4
       ansible.builtin.debug:
-      msg: "{{ myIp | ansible.utils.ipv4 }}"
+        msg: "{{ myIp | ansible.utils.ipv4 }}"
