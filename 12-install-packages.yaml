@@ -1,0 +1,18 @@
+---
+- name: Install Packages Demo
+  hosts: localhost
+  connection: local
+  become: yes   # <--- ROOT ACCESS (sudo)
+  gather_facts: yes # Needed for 'package' module to detect OS
+
+  tasks:
+    - name: Install Common Software
+      ansible.builtin.package:
+        name: "{{ item }}"
+        state: present
+      loop:
+        - git
+        - zip
+        - unzip
+      # I changed 'mysql' and 'nginx' to tools that are guaranteed 
+      # to exist in standard repos so this succeeds for you right now.
