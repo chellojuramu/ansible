@@ -1,0 +1,27 @@
+---
+- name: Variable Precedence Demo
+  hosts: localhost
+  connection: local
+  
+  
+  # Level 2: Play Variables (Lower priority than Task Vars)
+  vars:
+    USERNAME: "Play_Level_User"
+
+  # Level 3: Prompt Variables (Uncomment to test - High priority)
+  # vars_prompt:
+  #   - name: USERNAME
+  #     prompt: "Enter Username"
+  #     private: no
+
+  tasks:
+    - name: Case 1 - Default (Uses Play Variable)
+      ansible.builtin.debug:
+        msg: "Current User is: {{ USERNAME }}"
+
+    - name: Case 2 - Task Variable Override
+      # Level 1: Task Variables (Higher priority than Play Vars)
+      vars:
+        USERNAME: "Task_Level_User"
+      ansible.builtin.debug:
+        msg: "Current User is: {{ USERNAME }}"
