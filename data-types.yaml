@@ -1,0 +1,41 @@
+---
+- name: Server Configuration Data Types
+  hosts: localhost
+  connection: local
+
+  
+  vars:
+    # 1. String (Server Hostname)
+    SERVER_HOSTNAME: "prod-db-01"
+
+    # 2. Integer (Port Number - MUST be a number for math/logic)
+    DB_PORT: 5432
+
+    # 3. Boolean (Feature Flag - Used for 'when' conditions)
+    MAINTENANCE_MODE: false
+
+    # 4. List / Array (Packages to Install)
+    REQUIRED_PACKAGES:
+      - postgresql-14
+      - htop
+      - acl
+      - python3-psycopg2
+
+    # 5. Dictionary / Map (Network Configuration)
+    NETWORK_INFO:
+      interface: "eth0"
+      ip_address: "10.0.1.50"
+      gateway: "10.0.1.1"
+
+  tasks:
+    - name: Print Server Configuration
+      ansible.builtin.debug:
+        msg: |
+          ------------------------------------------
+          Hostname:     {{ SERVER_HOSTNAME }}
+          Port:         {{ DB_PORT }}
+          In Maint?:    {{ MAINTENANCE_MODE }}
+          
+          Main Package: {{ REQUIRED_PACKAGES[0] }}
+          IP Address:   {{ NETWORK_INFO.ip_address }}
+          ------------------------------------------
